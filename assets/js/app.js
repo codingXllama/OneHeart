@@ -10,11 +10,14 @@ const wishItems = document.querySelector(".cart-items");
 const wishContent = document.querySelector(".cart-content");
 const donationsDOM = document.querySelector(".donations-center");
 
-const btns = document.querySelectorAll(".bag-btn");
+// const btns = document.querySelectorAll(".bag-btn");
 // console.log(btns);
 
 // creating the main wish list
 let wishList = [];
+
+// creating the buttonsDOM array
+let buttonsDOM = [];
 
 // getting the donations from the .json file
 class Donations {
@@ -72,26 +75,48 @@ class UI {
 
   getBagButtons() {
     const buttons = [...document.querySelectorAll(".bag-btn")];
+    buttonsDOM = buttons;
     buttons.forEach((button) => {
       let id = button.dataset.id;
-    //   console.log(id);
+      // checking what items is already in our wishList
+      let inWishList = wishList.find((item) => item.id === id);
+      if (inWishList) {
+        button.innerText = "Already in Request List";
+        button.disabled = true;
+      }
 
-    // checking what items is already in our wishList
-    let inWishList= wishList.find(item=>item.id ===id);
-    if (inWishList){
-        button.innerText="Already in Request List";
-        button.disabled=true;
-    }
-    // if the button is not in the cart
-    else{
-        button.addEventListener('click',(event)=>{
-            // console.log(event);
-            event.target.innerText="In Request List";
-            event.target.disabled=true;
-            // getting the item we just selected from the storage 
-        })
-    }
+      button.addEventListener("click", (event) => {
+        // console.log(event);
+        event.target.innerText = "In Request List";
+        event.target.disabled = true;
+
+        //   getting each item from the wish List
+        let wishItem = { ...Storage.getDonation(id), amount: 1 };
+        // adding items to the wishlist
+        wishList = [...wishList, wishItem];
+
+        // saving the cart in local storage
+        Storage.saveWishList(wishList);
+
+
+        // setting the wishList values
+        this.setWishListValues(wishList);
+        // displaying the wish list items
+
+        // showing the wish list
+      });
     });
+  }
+
+  setWishListValues(wishList)
+  {
+      let tempTotal= 0;
+      let itemsTotal=0;
+      wishList.map(item =>{
+          itemsTotal+=item.amount;
+      })
+      wishItems.innerText=itemsTotal;
+      console.log(wishItems);
   }
 }
 
@@ -99,6 +124,16 @@ class UI {
 class Storage {
   static saveDonations(donations) {
     localStorage.setItem("donations", JSON.stringify(donations));
+  }
+
+  static getDonation(id) {
+    let donations = JSON.parse(localStorage.getItem("donations"));
+    return donations.find((donation) => donation.id === id);
+  }
+
+  static saveWishList(wishList)
+  {
+      localStorage.setItem("wishList",JSON.stringify(wishList))
   }
 }
 
@@ -108,13 +143,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const donations = new Donations();
 
   // getting all donations
-  donations.getDonations()
+  donations
+    .getDonations()
     .then((donations) => {
       ui.displayDonations(donations);
       Storage.saveDonations(donations);
     })
     .then(() => {
-    //   ui.getDonations;
+      //   ui.getDonations;
       ui.getBagButtons();
     });
 });
