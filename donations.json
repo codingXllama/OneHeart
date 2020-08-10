@@ -1,0 +1,61 @@
+{
+  "items": [
+    {
+      "sys": { "id": "1" },
+      "fields": {
+        "title": "Fresh Salad",
+        "image": { "fields": { "file": { "url": "/assets/img/foods/salad.jpg" } } }
+      }
+    },
+    {
+      "sys": { "id": "2" },
+      "fields": {
+        "title": "Meaty Burger",
+        "image": { "fields": { "file": { "url": "/assets/img/foods/burger.jpg" } } }
+      }
+    },
+    {
+      "sys": { "id": "3" },
+      "fields": {
+        "title": "Organic Fruits",
+        "image": { "fields": { "file": { "url": "/assets/img/foods/frux.jpg" } } }
+      }
+    },
+    {
+      "sys": { "id": "4" },
+      "fields": {
+        "title": "Fresh Bread",
+        "image": { "fields": { "file": { "url": "/assets/img/foods/bread.jpg" } } }
+      }
+    },
+    {
+      "sys": { "id": "5" },
+      "fields": {
+        "title": "Vegtables",
+         "image": { "fields": { "file": { "url": "/assets/img/foods/veggies.jpg" } } }
+      }
+    },
+    {
+      "sys": { "id": "6" },
+      "fields": {
+        "title": "Organic Milk",
+        "image": { "fields": { "file": { "url": "/assets/img/foods/milk2.jpeg" } } }
+      }
+    },
+    {
+      "sys": { "id": "7" },
+      "fields": {
+        "title": "Water",
+        "image": { "fields": { "file": { "url": "/assets/img/foods/water.jpg" } } }
+      }
+    },
+    {
+      "sys": { "id": "8" },
+      "fields": {
+        "title": "eggs",
+        "image": { "fields": { "file": { "url": "/assets/img/foods/eggs.jpg" } } }
+      }
+    }
+  ]
+}
+
