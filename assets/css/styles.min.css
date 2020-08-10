@@ -1,12 +1,13 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body,
 html {
   height: 100%;
   width: 100%;
-}
-
-#landingSec {
-  /* background: url("../img/tech/image2.jpg"); */
-  /* color: red; */
 }
 
 .center {
@@ -164,4 +165,23 @@ html {
     margin-top: 0;
     bottom: 25px;
   }
+}
+
+.clean-block.clean-hero:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("/assets/img/bg.png");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  /* background-color: currentColor; */
+  z-index: 1;
+}
+
+#nex {
+  color: rgb(245, 99, 99) !important;
 }
