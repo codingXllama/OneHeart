@@ -102,7 +102,7 @@ class UI {
         // setting the wishList values
         this.setWishListValues(wishList);
         // displaying the wish list items
-
+        this.addWishListItem(wishItem);
         // showing the wish list
       });
     });
@@ -116,8 +116,27 @@ class UI {
           itemsTotal+=item.amount;
       })
       wishItems.innerText=itemsTotal;
-      console.log(wishItems);
+    
   }
+  addWishListItem(item){
+      const div = document.createElement('div');
+      div.classList.add('cart-item');
+      div.innerHTML = `
+      <img src=${item.image}>
+      <div>
+          <h4>${item.title}</h4>
+          <!-- <h5>4 OneHearts</h5> -->
+          <span class="remove-item" data-id= ${item.id}>Remove</span>
+      </div>
+      <div>
+          <i class="fas fa-chevron-up" data-id= ${item.id}></i>
+          <p class="item-amount">${item.amount}</p>
+          <i class="fas fa-chevron-down" data-id= ${item.id}></i>
+      </div>`
+      wishContent.appendChild(div);
+      console.log(wishContent);
+  }
+  
 }
 
 // local storage class
