@@ -1,5 +1,6 @@
 // variable declarations
 
+
 const wishBtn = document.querySelector(".cart-btn");
 const closeWishBtn = document.querySelector(".close-cart");
 const clearWishBtn = document.querySelector("clear-cart");
@@ -23,7 +24,7 @@ let buttonsDOM = [];
 class Donations {
   async getDonations() {
     try {
-      let result = await fetch("/donations.json");
+      let result = await fetch("./donations.json");
       // getting our data in json file
       let data = await result.json();
       let donations = data.items;
@@ -56,7 +57,7 @@ class UI {
            <!-- single donation -->
                 <article class="donation">
                     <div class="img-container">
-                        <img src="${donation.image}" alt="salad_donation" class="donation-img">
+                        <img src="${donation.image}" alt="${donation.title}" class="donation-img">
                         <button class="bag-btn" data-id="${donation.id}">
 
                             <i class="fas fa-hand-holding-heart fa-3x " id="nex"></i>
@@ -104,6 +105,7 @@ class UI {
         // displaying the wish list items
         this.addWishListItem(wishItem);
         // showing the wish list
+        this.showWishList();
       });
     });
   }
@@ -134,7 +136,13 @@ class UI {
           <i class="fas fa-chevron-down" data-id= ${item.id}></i>
       </div>`
       wishContent.appendChild(div);
-      console.log(wishContent);
+      
+  }
+
+  showWishList()
+  {
+      wishOverlay.classList.add("transparentMe");
+      wishDOM.classList.add("showMe");
   }
   
 }

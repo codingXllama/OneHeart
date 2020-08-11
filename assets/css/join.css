@@ -197,10 +197,10 @@ body {
   transition: var(--mainTransition);
   transform: translateX(100%);
 }
-.showCart {
+.showMe{
   transform: translateX(0);
 }
-.transparentBcg {
+.transparentMe {
   visibility: visible;
 }
 @media screen and (min-width: 768px) {
