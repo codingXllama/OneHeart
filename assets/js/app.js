@@ -56,8 +56,8 @@ class UI {
            <!-- single donation -->
                 <article class="donation">
                     <div class="img-container">
-                        <img src="${donation.image}" alt="${donation.title}" class="donation-img">
-                        <button class="bag-btn" data-id="${donation.id}">
+                        <img src=${donation.image} alt=${donation.title} class="donation-img">
+                        <button class="bag-btn" data-id=${donation.id}>
 
                             <i class="fas fa-hand-holding-heart fa-3x " id="nex"></i>
                             Add to Wish List
@@ -65,7 +65,7 @@ class UI {
 
                     </div>
                     <h3>${donation.title}</h3>
-                    <h4></h4>
+                 
                 </article>
                 <!-- end of Single Donation -->
           `;
@@ -74,7 +74,7 @@ class UI {
   }
 
   getBagButtons() {
-    const buttons = [...document.querySelectorAll(".bag-btn")];
+    let buttons = [...document.querySelectorAll(".bag-btn")];
     buttonsDOM = buttons;
     buttons.forEach((button) => {
       let id = button.dataset.id;
@@ -124,12 +124,12 @@ class UI {
       <div>
           <h4>${item.title}</h4>
           <!-- <h5>4 OneHearts</h5> -->
-          <span class="remove-item" data-id= ${item.id}>Remove</span>
+          <span class="remove-item" data-id=${item.id}>Remove</span>
       </div>
       <div>
-          <i class="fas fa-chevron-up" data-id= ${item.id}></i>
+          <i class="fas fa-chevron-up" data-id=${item.id}></i>
           <p class="item-amount">${item.amount}</p>
-          <i class="fas fa-chevron-down" data-id= ${item.id}></i>
+          <i class="fas fa-chevron-down" data-id=${item.id}></i>
       </div>`;
     wishContent.appendChild(div);
   }
@@ -153,48 +153,75 @@ class UI {
     wishList.forEach((item) => this.addWishListItem(item));
   }
 
-  hideWishlist()
-  {
+  hideWishlist() {
     wishOverlay.classList.remove("transparentMe");
     wishDOM.classList.remove("showMe");
   }
 
-  wishListLogic()
-  {
-     clearWishBtn.addEventListener("click",()=>{
-         this.clearWishList();
-     });
+  wishListLogic() {
+    clearWishBtn.addEventListener("click", () => {
+      this.clearWishList();
+    });
+
+    //  wishList functionality
+    wishContent.addEventListener("click", (event) => {
+      if (event.target.classList.contains("remove-item")) {
+        let removeItem = event.target;
+        let id = removeItem.dataset.id;
+        wishContent.removeChild(removeItem.parentElement.parentElement);
+        this.removeItem(id);
+      }else if (event.target.classList.contains("fa-chevron-up")) {
+        let addAmount = event.target;
+        let id = addAmount.dataset.id;
+        let tempItem = wishList.find(item => item.id === id);
+        tempItem.amount = tempItem.amount + 1;
+        Storage.saveWishList(wishList);
+        this.setWishListValues(wishList);
+        addAmount.nextElementSibling.innerText = tempItem.amount;
+      } else if (event.target.classList.contains("fa-chevron-down")) {
+        let lowerAmount = event.target;
+        let id = lowerAmount.dataset.id;
+        let tempItem = wishList.find((item) => item.id === id);
+        tempItem.amount = tempItem.amount - 1;
+        if (tempItem.amount > 0) {
+          Storage.saveWishList(wishList);
+          this.setWishListValues(wishList);
+          lowerAmount.previousElementSibling.innerText = tempItem.amount;
+        } else {
+          wishContent.removeChild(lowerAmount.parentElement.parentElement);
+          this.removeItem(id);
+        }
+      }
+    });
   }
 
-  clearWishList()
-  {
-      let wishItems=wishList.map(item=>item.id);
-      console.log(wishItems);
-      wishItems.forEach(id => this.removeItem(id));
+  yes() {
+    document.getElementById("demo").innerHTML = "Request has been made!";
+  }
+
+  clearWishList() {
+    let wishItems = wishList.map((item) => item.id);
+    wishItems.forEach((id) => this.removeItem(id));
     //   removing the wishList items from the DOM
-    console.log(wishContent.children);
-    while(wishContent.children.length>0)
-    {
-        wishContent.removeChild(wishContent.children[0]);
+
+    while (wishContent.children.length > 0) {
+      wishContent.removeChild(wishContent.children[0]);
     }
     this.hideWishlist();
   }
 
-  removeItem(id)
-  {
-      wishList=wishList.filter(item=>item.id !==id);
-      this.setWishListValues(wishList);
-      Storage.saveDonations(wishList);
-      let buttons= this.getSingleButton(id);
-      buttons.disabled=false;
-      buttons.innerHTML= `<i class="fas fa-hand-holding-heart fa-1x">Add to Wish List</i>`
+  removeItem(id) {
+    wishList = wishList.filter((item) => item.id !== id);
+    this.setWishListValues(wishList);
+    Storage.saveDonations(wishList);
+    let button = this.getSingleButton(id);
+    button.disabled = false;
+    button.innerHTML = `<i class="fas fa-hand-holding-heart fa-1x">Add to Wish List</i>`;
   }
 
-  getSingleButton(id)
-  {
-      return buttonsDOM.find(button => button.dataset.id===id);
+  getSingleButton(id) {
+    return buttonsDOM.find(button => button.dataset.id === id);
   }
-
 }
 
 // local storage class

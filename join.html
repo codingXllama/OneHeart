@@ -10,14 +10,17 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
             integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
         <script src="https://kit.fontawesome.com/ecaabaf962.js" crossorigin="anonymous"></script>
-
+        <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"
+      />
     </head>
 
     <body>
         <!-- Creating the Navbar -->
         <nav class="navbar">
             <div class="navbar-center">
-                <span class="nav-icon">
+                <span class="nav-icon animate__animated animate__bounce">
                     One Heart
                 </span>
                 <div class="cart-btn">
@@ -30,10 +33,10 @@
         </nav>
         <!-- End of Navbar -->
         <!-- hero -->
-        <header class="hero">
+        <header class="hero animate__animated animate__bounce" >
             <div class="banner">
-                <h1 class="banner-title">One Heart</h1>
-                <button class="banner-btn">Request Donation!</button>
+                <button class="banner-btn animate__animated animate__bounce" onClick="yes();">Request Donation!</button>
+                <p id="demo"></p>
             </div>
         </header>
         <!-- end of hero -->
@@ -82,7 +85,7 @@
         <!-- end of Wish Bag -->
 
 
-        <script src="assets/js/app.js" src="assets/donations.json"></script>
+        <script src="assets/js/app.js"></script>
     </body>
 
 </html>
