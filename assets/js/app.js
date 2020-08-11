@@ -2,7 +2,7 @@
 
 const wishBtn = document.querySelector(".cart-btn");
 const closeWishBtn = document.querySelector(".close-cart");
-const clearWishBtn = document.querySelector("clear-cart");
+const clearWishBtn = document.querySelector(".clear-cart");
 const wishDOM = document.querySelector(".cart");
 const wishOverlay = document.querySelector(".cart-overlay");
 const wishItems = document.querySelector(".cart-items");
@@ -159,6 +159,41 @@ class UI {
     wishDOM.classList.remove("showMe");
   }
 
+  wishListLogic()
+  {
+     clearWishBtn.addEventListener("click",()=>{
+         this.clearWishList();
+     });
+  }
+
+  clearWishList()
+  {
+      let wishItems=wishList.map(item=>item.id);
+      console.log(wishItems);
+      wishItems.forEach(id => this.removeItem(id));
+    //   removing the wishList items from the DOM
+    console.log(wishContent.children);
+    while(wishContent.children.length>0)
+    {
+        wishContent.removeChild(wishContent.children[0]);
+    }
+    this.hideWishlist();
+  }
+
+  removeItem(id)
+  {
+      wishList=wishList.filter(item=>item.id !==id);
+      this.setWishListValues(wishList);
+      Storage.saveDonations(wishList);
+      let buttons= this.getSingleButton(id);
+      buttons.disabled=false;
+      buttons.innerHTML= `<i class="fas fa-hand-holding-heart fa-1x">Add to Wish List</i>`
+  }
+
+  getSingleButton(id)
+  {
+      return buttonsDOM.find(button => button.dataset.id===id);
+  }
 
 }
 
@@ -203,5 +238,6 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(() => {
       //   ui.getDonations;
       ui.getBagButtons();
+      ui.wishListLogic();
     });
 });
