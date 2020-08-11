@@ -1,6 +1,5 @@
 // variable declarations
 
-
 const wishBtn = document.querySelector(".cart-btn");
 const closeWishBtn = document.querySelector(".close-cart");
 const clearWishBtn = document.querySelector("clear-cart");
@@ -99,7 +98,6 @@ class UI {
         // saving the cart in local storage
         Storage.saveWishList(wishList);
 
-
         // setting the wishList values
         this.setWishListValues(wishList);
         // displaying the wish list items
@@ -110,20 +108,18 @@ class UI {
     });
   }
 
-  setWishListValues(wishList)
-  {
-      let tempTotal= 0;
-      let itemsTotal=0;
-      wishList.map(item =>{
-          itemsTotal+=item.amount;
-      })
-      wishItems.innerText=itemsTotal;
-    
+  setWishListValues(wishList) {
+    let tempTotal = 0;
+    let itemsTotal = 0;
+    wishList.map((item) => {
+      itemsTotal += item.amount;
+    });
+    wishItems.innerText = itemsTotal;
   }
-  addWishListItem(item){
-      const div = document.createElement('div');
-      div.classList.add('cart-item');
-      div.innerHTML = `
+  addWishListItem(item) {
+    const div = document.createElement("div");
+    div.classList.add("cart-item");
+    div.innerHTML = `
       <img src=${item.image}>
       <div>
           <h4>${item.title}</h4>
@@ -134,17 +130,36 @@ class UI {
           <i class="fas fa-chevron-up" data-id= ${item.id}></i>
           <p class="item-amount">${item.amount}</p>
           <i class="fas fa-chevron-down" data-id= ${item.id}></i>
-      </div>`
-      wishContent.appendChild(div);
-      
+      </div>`;
+    wishContent.appendChild(div);
   }
 
-  showWishList()
-  {
-      wishOverlay.classList.add("transparentMe");
-      wishDOM.classList.add("showMe");
+  showWishList() {
+    wishOverlay.classList.add("transparentMe");
+    wishDOM.classList.add("showMe");
   }
-  
+
+  setUpApp() {
+    wishList = Storage.getWishList();
+    this.setWishListValues(wishList);
+    this.populateWishList(wishList);
+
+    // code for closing and changing the wishList items
+    wishBtn.addEventListener("click", this.showWishList);
+    closeWishBtn.addEventListener("click", this.hideWishlist);
+  }
+
+  populateWishList(wishList) {
+    wishList.forEach((item) => this.addWishListItem(item));
+  }
+
+  hideWishlist()
+  {
+    wishOverlay.classList.remove("transparentMe");
+    wishDOM.classList.remove("showMe");
+  }
+
+
 }
 
 // local storage class
@@ -158,9 +173,15 @@ class Storage {
     return donations.find((donation) => donation.id === id);
   }
 
-  static saveWishList(wishList)
-  {
-      localStorage.setItem("wishList",JSON.stringify(wishList))
+  static saveWishList(wishList) {
+    localStorage.setItem("wishList", JSON.stringify(wishList));
+  }
+
+  static getWishList() {
+    //   checking if the localstorage has any items in the wishlist if yes then show it else do nothing
+    return localStorage.getItem("wishList")
+      ? JSON.parse(localStorage.getItem("wishList"))
+      : [];
   }
 }
 
@@ -168,6 +189,9 @@ class Storage {
 document.addEventListener("DOMContentLoaded", () => {
   const ui = new UI();
   const donations = new Donations();
+
+  //   setup the application
+  ui.setUpApp();
 
   // getting all donations
   donations
